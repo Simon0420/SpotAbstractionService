@@ -51,6 +51,7 @@ public class GpsPoint implements Serializable {
     /**
      * information about nearest spot
      */
+    @Transient
     private InfoBundle closestSpotInfo;
 
     public GpsPoint(){}

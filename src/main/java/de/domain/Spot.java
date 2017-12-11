@@ -200,7 +200,7 @@ public class Spot implements Serializable{
     /**
      * Adds a new neighbor Spot to the Spot
      *
-     * @param spot :Spot to add as neighbor
+     * spot :Spot to add as neighbor
      */
     public void addNeighbor(Spot spot) {
         if (spot != null) {

@@ -7,7 +7,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
-import de.repositories.SpotRepository;
+import de.repositories.preDBRepositories.SpotRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
@@ -17,6 +18,7 @@ import java.util.*;
  *
  * @author simon_000
  */
+@Service
 public class SpotService {
 
 	@Autowired

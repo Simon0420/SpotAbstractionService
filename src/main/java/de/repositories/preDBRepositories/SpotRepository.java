@@ -1,29 +1,24 @@
-package de.repositories;
+package de.repositories.preDBRepositories;
 
 import de.domain.Spot;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Repository
 public interface SpotRepository extends CrudRepository<Spot, Long>{
 
-    /**
-     * Custom add query
-     * currently in CustomSpotQueries
-     * @param spot
-     */
-    @Query
-    public void addSpot(Spot spot);
 
     /**
      * Custom update
      * currently in CustomSpotQueries
-     * @param spot
+     * spot
      */
-    @Modifying
+    /*@Modifying
     @Query("UPDATE Spot s SET "+
             "s.location = " + "ST_SetSRID(ST_MakePoint(spot.latitude, spot.longitude), 4326), "+
             "s.latitude = :spot.latitude, " +
@@ -40,7 +35,7 @@ public interface SpotRepository extends CrudRepository<Spot, Long>{
             "s.nodeProcessed = :spot.nodeProcessed, " +
             "s.edgeProcessed = :spot.edgeProcessed " +
             "WHERE s.spotID = :spot.spotID")
-    public void updateSpot(Spot spot);
+    public void updateSpot(Spot spot);*/
 
     @Query("Select s from Spot s WHERE s.spotID = :spotID")
     public Spot getSpot(Long spotID);
@@ -56,6 +51,4 @@ public interface SpotRepository extends CrudRepository<Spot, Long>{
             "LIMIT 1;", nativeQuery = true)
     List<Spot> getClosestSpot(@Param("latitude")double latitude, @Param("longitude")double longitude);
 
-    @Query
-    public void addNeighbour(Long spotID, Long updatedSpotID, boolean intersectionCheck, boolean updatedIntersectionCheck);
 }

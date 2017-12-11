@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.domain.Route;
 import de.services.SpotService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
 
+@Controller
 public class SpotController {
 
+    @Autowired
     final SpotService spotService;
 
     @Autowired
