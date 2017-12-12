@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
@@ -33,10 +35,13 @@ public class PostDbConfiguration {
             EntityManagerFactoryBuilder builder,
             @Qualifier("dataSource2") DataSource dataSource
     ) {
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put("hibernate.hbm2ddl.auto", "create-drop");
         return builder
                 .dataSource(dataSource)
                 .packages("de.domain")
                 .persistenceUnit("postdb")
+                .properties(properties)
                 .build();
     }
 

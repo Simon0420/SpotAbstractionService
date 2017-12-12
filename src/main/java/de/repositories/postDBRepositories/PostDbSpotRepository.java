@@ -1,5 +1,6 @@
 package de.repositories.postDBRepositories;
 
+import de.domain.Route;
 import de.domain.Spot;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -23,4 +24,6 @@ public interface PostDbSpotRepository extends CrudRepository<Spot, Long> {
             "ORDER BY location <-> ST_SetSRID(ST_POINT(:latitude, :longitude), 4326) " +
             "LIMIT 1;", nativeQuery = true)
     List<Spot> getClosestSpot(@Param("latitude")double latitude, @Param("longitude")double longitude);
+
+
 }

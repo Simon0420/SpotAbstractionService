@@ -51,7 +51,7 @@ public class Benchmark {
         try {
             System.out.println(input);
 
-            URL url = new URL("http://localhost:5434/processRoute");
+            URL url = new URL("http://localhost:5435/processRoute");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");

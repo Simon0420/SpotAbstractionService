@@ -36,7 +36,7 @@ public class Spot implements Serializable{
     public int numberOfNeighbours;
 
     @ManyToOne(targetEntity=Spot.class, fetch=FetchType.EAGER)
-    public ArrayList<Spot> neighbors;
+    public ArrayList<Long> neighbors;
 
     public int numberCenterCalcPoints; //!
     public double latitudeSum; //!
@@ -65,7 +65,7 @@ public class Spot implements Serializable{
             head = head - 180.0;
         }
         this.spotHeading = head;
-        this.neighbors = new ArrayList<Spot>();
+        this.neighbors = new ArrayList<Long>();
         this.intersection = false;
         this.headSum = head;
         this.headCalcPoints = 1;
@@ -166,17 +166,17 @@ public class Spot implements Serializable{
      * @param spot :Spot to add as neighbor
      */
     public boolean addNeighborAlternative(Spot spot) {
-        ArrayList<Spot> neighbors = this.getNeighbors();
+        ArrayList<Long> neighbors = this.getNeighbors();
         boolean contained = false;
 
         for (int i = 0; i < neighbors.size(); i++) {
-            if (spot.getSpotID().equals(neighbors.get(i).spotID)) {
+            if (spot.getSpotID().equals(neighbors.get(i))) {
                 contained = true;
             }
         }
 
         if (!contained) {
-            neighbors.add(spot);
+            neighbors.add(spot.spotID);
             numberOfNeighbours++;
             this.setNeighbors(neighbors);
 
@@ -207,16 +207,16 @@ public class Spot implements Serializable{
             double distance = GPSDataProcessor.calcDistance(spot.latitude, spot.longitude, latitude, longitude);
             if (distance >= 30 && distance <= 150) {
                 if (!spot.getSpotID().equals(this.spotID)) {
-                    ArrayList<Spot> neighbors = this.getNeighbors();
+                    ArrayList<Long> neighbors = this.getNeighbors();
                     boolean contained = false;
 
                     for (int i = 0; i < neighbors.size(); i++) {
-                        if (spot.getSpotID().equals(neighbors.get(i).spotID)) {
+                        if (spot.getSpotID().equals(neighbors.get(i))) {
                             contained = true;
                         }
                     }
                     if (!contained) {
-                        neighbors.add(spot);
+                        neighbors.add(spot.spotID);
                         //if (neighbors.size() >= 3) {
                         //this.setIntersection(true);
                         //}
@@ -452,11 +452,11 @@ public class Spot implements Serializable{
         this.numberOfNeighbours = numberOfNeighbours;
     }
 
-    public ArrayList<Spot> getNeighbors() {
+    public ArrayList<Long> getNeighbors() {
         return neighbors;
     }
 
-    public void setNeighbors(ArrayList<Spot> neighbors) {
+    public void setNeighbors(ArrayList<Long> neighbors) {
         this.neighbors = neighbors;
     }
 
