@@ -10,10 +10,16 @@ import java.util.UUID;
 
 public class Benchmark {
     public static void main(String[] args){
-        createSpotStructure();
+        Benchmark bench = new Benchmark();
+        try {
+            bench.createSpotStructure();
+        }catch(Exception e){
+
+        }
+        System.out.println("job done");
     }
 
-    static public void createSpotStructure(){
+    public void createSpotStructure(){
         double latitude = 0;
         double longitude = 0;
         long date = 0;
@@ -57,7 +63,6 @@ public class Benchmark {
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
 
-
             OutputStream os = conn.getOutputStream();
             os.write(input.getBytes());
             os.flush();
@@ -67,8 +72,7 @@ public class Benchmark {
                         + conn.getResponseCode());
             }*/
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
+            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 
             String output;
             //System.out.println("Output from Server: ");
@@ -80,7 +84,7 @@ public class Benchmark {
 
         } catch (Exception e) {
 
-            e.printStackTrace();
+            //e.printStackTrace();
             return;
 
         }

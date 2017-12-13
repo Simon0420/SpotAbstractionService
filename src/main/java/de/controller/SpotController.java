@@ -40,8 +40,10 @@ public class SpotController {
         }
 
         // map into spots
-        spotService.learningSpotStructure(route);
-        return "Route processed";
+        route = spotService.learningSpotStructure(route);
+        System.out.println("end of method");
+
+        return "succesfull;";
     }
 
 }

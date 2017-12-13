@@ -24,7 +24,7 @@ public class SpotService {
 	@Autowired
 	SpotRepository spotRepository;
 
-	CustomSpotQueries spotQuery;
+	CustomSpotQueries spotQuery = new CustomSpotQueries();
 
 	/**
 	 * The calculation level increases every time a trajectory is processed
@@ -69,6 +69,7 @@ public class SpotService {
 		}
 		//close session
 		session.close();
+		System.out.println("Job done :)");
 		return route;
 	}
 
@@ -92,7 +93,7 @@ public class SpotService {
 		Spot spot = generateSpot(route, 0);
 		route.route[0].setSpot(spot);
 		route.route[0].setMappedToSpot(true);
-		spot = spotRepository.save(spot);
+		spot.spotID = spotQuery.addSpot(spot,session);
 
 		System.out.println(spot + " zur Datenbank hinzufügen");
 		// create further spots
@@ -103,7 +104,7 @@ public class SpotService {
 				spot = generateSpot(route, j);
 				route.route[j].setSpot(spot);
 				route.route[j].setMappedToSpot(true);
-				spot = spotRepository.save(spot);
+				spot.spotID = spotQuery.addSpot(spot,session);
 				System.out.println(spot + " zur Datenbank hinzufügen");
 
 			} else if (infobundle.inRange) {
@@ -220,7 +221,7 @@ public class SpotService {
 				spot = generateSpot(route, j);
 				route.route[j].setSpot(spot);
 				route.route[j].setMappedToSpot(true);
-				spot = spotRepository.save(spot);
+				spot.spotID = spotQuery.addSpot(spot,session);
 			} else if (!infobundle.inRange && infobundle.distance < (Spot.stdRadius * 2)) {
 				// update counter
 				inRangeCounter = 0;

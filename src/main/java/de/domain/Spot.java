@@ -7,10 +7,12 @@ import com.vividsolutions.jts.geom.Point;
 import de.geodesy.GeoDesy;
 import de.services.Line;
 import de.services.GPSDataProcessor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Spot implements Serializable{
@@ -28,25 +30,30 @@ public class Spot implements Serializable{
     public double latitude; //!
 
     @Column(columnDefinition="geometry(Point,4326)")
-    public Geometry location;
+    public Point location;
 
     public double spotHeading; //!
     public boolean intersection; //!
 
     public int numberOfNeighbours;
 
-    @ManyToOne(targetEntity=Spot.class, fetch=FetchType.EAGER)
-    public ArrayList<Long> neighbors;
+    @OneToMany
+    public List<Spot> neighbors;
 
     public int numberCenterCalcPoints; //!
     public double latitudeSum; //!
     public double longitudeSum; //!
 
+    @Column(nullable = true)
     public int headCalcPoints; //!
+    @Column(nullable = true)
     public double headSum; //!
 
+    @Column(nullable = true)
     public boolean nodeProcessed;
+    @Column(nullable = true)
     public boolean edgeProcessed;
+    @Column(nullable = true)
     public boolean weightProcessed;
 
     public Spot(){}
@@ -65,7 +72,7 @@ public class Spot implements Serializable{
             head = head - 180.0;
         }
         this.spotHeading = head;
-        this.neighbors = new ArrayList<Long>();
+        this.neighbors = new ArrayList<Spot>();
         this.intersection = false;
         this.headSum = head;
         this.headCalcPoints = 1;
@@ -166,7 +173,7 @@ public class Spot implements Serializable{
      * @param spot :Spot to add as neighbor
      */
     public boolean addNeighborAlternative(Spot spot) {
-        ArrayList<Long> neighbors = this.getNeighbors();
+        List<Spot> neighbors = this.getNeighbors();
         boolean contained = false;
 
         for (int i = 0; i < neighbors.size(); i++) {
@@ -176,7 +183,7 @@ public class Spot implements Serializable{
         }
 
         if (!contained) {
-            neighbors.add(spot.spotID);
+            neighbors.add(spot);
             numberOfNeighbours++;
             this.setNeighbors(neighbors);
 
@@ -207,7 +214,7 @@ public class Spot implements Serializable{
             double distance = GPSDataProcessor.calcDistance(spot.latitude, spot.longitude, latitude, longitude);
             if (distance >= 30 && distance <= 150) {
                 if (!spot.getSpotID().equals(this.spotID)) {
-                    ArrayList<Long> neighbors = this.getNeighbors();
+                    List<Spot> neighbors = this.getNeighbors();
                     boolean contained = false;
 
                     for (int i = 0; i < neighbors.size(); i++) {
@@ -216,7 +223,7 @@ public class Spot implements Serializable{
                         }
                     }
                     if (!contained) {
-                        neighbors.add(spot.spotID);
+                        neighbors.add(spot);
                         //if (neighbors.size() >= 3) {
                         //this.setIntersection(true);
                         //}
@@ -380,11 +387,11 @@ public class Spot implements Serializable{
         this.spotID = spotID;
     }
 
-    public Geometry getLocation() {
+    public Point getLocation() {
         return location;
     }
 
-    public void setLocation(Geometry location) {
+    public void setLocation(Point location) {
         this.location = location;
     }
 
@@ -452,11 +459,11 @@ public class Spot implements Serializable{
         this.numberOfNeighbours = numberOfNeighbours;
     }
 
-    public ArrayList<Long> getNeighbors() {
+    public List<Spot> getNeighbors() {
         return neighbors;
     }
 
-    public void setNeighbors(ArrayList<Long> neighbors) {
+    public void setNeighbors(List<Spot> neighbors) {
         this.neighbors = neighbors;
     }
 
