@@ -1,7 +1,7 @@
 package de.services;
 
-import de.domain.GpsPoint;
-import de.domain.Route;
+import de.domainAux.GpsPoint;
+import de.domainAux.Route;
 import de.domain.Spot;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

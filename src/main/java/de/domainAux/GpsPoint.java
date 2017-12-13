@@ -1,6 +1,7 @@
-package de.domain;
+package de.domainAux;
 
 import com.vividsolutions.jts.geom.Geometry;
+import de.domain.Spot;
 import de.services.InfoBundle;
 
 import javax.persistence.*;

@@ -39,7 +39,7 @@ public class PostDbConfiguration {
         properties.put("hibernate.hbm2ddl.auto", "create-drop");
         return builder
                 .dataSource(dataSource)
-                .packages("de.domain")
+                .packages("de.domainAux")
                 .persistenceUnit("postdb")
                 .properties(properties)
                 .build();

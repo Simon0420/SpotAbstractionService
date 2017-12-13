@@ -1,13 +1,12 @@
 package de.domain;
 
 import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
+import de.domainAux.GpsPoint;
 import de.geodesy.GeoDesy;
 import de.services.Line;
 import de.services.GPSDataProcessor;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
