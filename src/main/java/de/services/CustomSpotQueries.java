@@ -4,8 +4,6 @@ import de.domain.Spot;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import java.math.BigInteger;
-
 public class CustomSpotQueries {
 
     public long addSpot(Spot s, Session session){

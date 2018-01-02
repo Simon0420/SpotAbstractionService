@@ -1,8 +1,5 @@
 package de.services;
 import de.domain.Spot;
-import jdk.nashorn.internal.ir.annotations.Ignore;
-
-import java.beans.Transient;
 
 /**
  * This class represents a auxiliary class for the spot mapping algorithm

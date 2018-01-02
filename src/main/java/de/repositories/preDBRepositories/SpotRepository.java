@@ -1,7 +1,6 @@
 package de.repositories.preDBRepositories;
 
 import de.domain.Spot;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -50,5 +49,4 @@ public interface SpotRepository extends CrudRepository<Spot, Long>{
             "ORDER BY location <-> ST_SetSRID(ST_POINT(:latitude, :longitude), 4326) " +
             "LIMIT 1;", nativeQuery = true)
     List<Spot> getClosestSpot(@Param("latitude")double latitude, @Param("longitude")double longitude);
-
 }
