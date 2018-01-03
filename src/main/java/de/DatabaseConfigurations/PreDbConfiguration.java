@@ -1,6 +1,7 @@
 package de.DatabaseConfigurations;
 
 
+import de.domains.domain.Spot;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -44,8 +45,8 @@ public class PreDbConfiguration {
         properties.put("hibernate.hbm2ddl.auto", "create-drop");
         return builder
                 .dataSource(dataSource)
-                .packages("de.domain")
-                .persistenceUnit("postdb")
+                .packages(Spot.class.getPackage().getName())
+                .persistenceUnit("predb")
                 .properties(properties)
                 .build();
     }

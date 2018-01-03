@@ -1,7 +1,7 @@
 package de.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.domainAux.Route;
+import de.domains.domainAux.Route;
 import de.services.SpotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

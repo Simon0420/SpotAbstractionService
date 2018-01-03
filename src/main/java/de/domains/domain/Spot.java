@@ -1,9 +1,9 @@
-package de.domain;
+package de.domains.domain;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
-import de.domainAux.GpsPoint;
+import de.domains.domainAux.GpsPoint;
 import de.geodesy.GeoDesy;
 import de.services.Line;
 import de.services.GPSDataProcessor;
@@ -15,7 +15,6 @@ import java.util.List;
 
 @Entity
 public class Spot implements Serializable{
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "serial")

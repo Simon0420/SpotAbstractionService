@@ -1,5 +1,5 @@
 package de.services;
-import de.domain.Spot;
+import de.domains.domain.Spot;
 
 /**
  * This class represents a auxiliary class for the spot mapping algorithm

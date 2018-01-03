@@ -1,7 +1,7 @@
 package de.repositories.postDBRepositories;
 
 
-import de.domainAux.Route;
+import de.domains.domainAux.Route;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

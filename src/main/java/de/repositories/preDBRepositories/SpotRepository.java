@@ -1,6 +1,6 @@
 package de.repositories.preDBRepositories;
 
-import de.domain.Spot;
+import de.domains.domain.Spot;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -10,31 +10,6 @@ import java.util.*;
 
 @Repository
 public interface SpotRepository extends CrudRepository<Spot, Long>{
-
-
-    /**
-     * Custom update
-     * currently in CustomSpotQueries
-     * spot
-     */
-    /*@Modifying
-    @Query("UPDATE Spot s SET "+
-            "s.location = " + "ST_SetSRID(ST_MakePoint(spot.latitude, spot.longitude), 4326), "+
-            "s.latitude = :spot.latitude, " +
-            "s.longitude = :spot.longitude, " +
-            "s.spotHeading = :spot.spotHeading, " +
-            "s.intersection = :spot.intersection, " +
-            "s.numberOfNeighbours = :spot.numberOfNeighbours, " +
-            "s.neighbors = :spot.neighbors, " +
-            "s.latitudeSum = :spot.latitudeSum, " +
-            "s.longitudeSum = :spot.longitudeSum, " +
-            "s.numberCenterCalcPoints = :spot.numberCenterCalcPoints, " +
-            "s.headSum = :spot.headSum, " +
-            "s.headCalcPoints = :spot.headCalcPoints, " +
-            "s.nodeProcessed = :spot.nodeProcessed, " +
-            "s.edgeProcessed = :spot.edgeProcessed " +
-            "WHERE s.spotID = :spot.spotID")
-    public void updateSpot(Spot spot);*/
 
     @Query("Select s from Spot s WHERE s.spotID = :spotID")
     public Spot getSpot(Long spotID);

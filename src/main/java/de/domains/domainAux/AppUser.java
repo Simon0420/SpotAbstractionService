@@ -1,4 +1,4 @@
-package de.domainAux;
+package de.domains.domainAux;
 
 import javax.persistence.*;
 import java.io.Serializable;

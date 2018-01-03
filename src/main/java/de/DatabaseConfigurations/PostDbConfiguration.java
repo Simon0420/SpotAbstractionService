@@ -1,5 +1,6 @@
 package de.DatabaseConfigurations;
 
+import de.domains.domainAux.Route;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory", basePackages = { "de.repositories.postDBRepositories" }
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory2", basePackages = { "de.repositories.postDBRepositories" }
 )
 public class PostDbConfiguration {
 
@@ -39,7 +40,7 @@ public class PostDbConfiguration {
         properties.put("hibernate.hbm2ddl.auto", "create-drop");
         return builder
                 .dataSource(dataSource)
-                .packages("de.domains.domainAux")
+                .packages(Route.class.getPackage().getName())
                 .persistenceUnit("postdb")
                 .properties(properties)
                 .build();

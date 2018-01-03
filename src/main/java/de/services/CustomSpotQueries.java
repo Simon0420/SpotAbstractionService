@@ -1,8 +1,13 @@
 package de.services;
 
-import de.domain.Spot;
+import de.domains.domain.Spot;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import java.math.BigInteger;
+import java.sql.ResultSet;
+import java.util.List;
 
 public class CustomSpotQueries {
 
@@ -39,7 +44,15 @@ public class CustomSpotQueries {
         //perform db operations
         Query q = session.createSQLQuery(querystring);
         q.executeUpdate();
-        return 1;
+
+        /**
+        String query = "Select spotid FROM spot WHERE latitude = "+s.latitude+" AND longitude = "+s.longitude+" AND spotHeading = "+s.spotHeading+";";
+        q = session.createSQLQuery(querystring);
+        q.executeUpdate();
+        List list = q.list();
+        System.out.println(list.get(0));*/
+
+        return 0;
     }
 
     public void updateSpot(Spot s, Session session){
@@ -79,5 +92,16 @@ public class CustomSpotQueries {
         //perform db operations
         q = session.createSQLQuery(querystring);
         q.executeUpdate();
+
+        addNeighbourRelation(spot1,spot2,session);
     }
+
+    public void addNeighbourRelation(Spot spot1, Spot spot2, Session session){
+        String querystring = "INSERT INTO spot_spot (spot_spotid, neighbours_spotid) VALUES ("+spot1.spotID+", "+spot2.spotID+"), ("+spot2.spotID+", "+spot1.spotID+")"+";";
+        //perform db operations
+        Query q = session.createSQLQuery(querystring);
+        q.executeUpdate();
+    }
+
+
 }

@@ -1,6 +1,6 @@
 package de.services;
 
-import de.domainAux.GpsPoint;
+import de.domains.domainAux.GpsPoint;
 import de.geodesy.GeoDesy;
 
 /**

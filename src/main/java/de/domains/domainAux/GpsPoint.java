@@ -1,7 +1,7 @@
-package de.domainAux;
+package de.domains.domainAux;
 
 import com.vividsolutions.jts.geom.Geometry;
-import de.domain.Spot;
+import de.domains.domain.Spot;
 import de.services.InfoBundle;
 
 import javax.persistence.*;

@@ -1,8 +1,8 @@
 package de.services;
 
-import de.domainAux.GpsPoint;
-import de.domainAux.Route;
-import de.domain.Spot;
+import de.domains.domainAux.GpsPoint;
+import de.domains.domainAux.Route;
+import de.domains.domain.Spot;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -303,7 +303,8 @@ public class SpotService {
 				if (route.route[temp].isMappedToSpot()) {
 					Spot nextSpot = route.route[temp].getSpot();
 					double distance = GPSDataProcessor.calcDistance(nextSpot.getLatitude(), nextSpot.getLongitude(),
-							route.route[temp].getLatitude(), route.route[temp].getLongitude());
+
+								route.route[temp].getLatitude(), route.route[temp].getLongitude());
 					if (distance < route.route[notMapped.get(k)].getClosestSpotInfo().minDistance_spotCenterlat) {
 						closestSpot = nextSpot;
 					} else {
@@ -350,8 +351,30 @@ public class SpotService {
 			double distance = GPSDataProcessor.calcDistance(spot.getLatitude(), spot.getLongitude(), spot2.getLatitude(), spot2.getLongitude());
 			if (distance >= 25 && distance <= 150) {
 				if (!spot.getSpotID().equals(spot2.getSpotID())) {
-					if(spot.addNeighborAlternative(spot2) & spot2.addNeighborAlternative(spot)){
+					List<Spot> neighbors = spot.getNeighbors();
+					boolean contained = false;
+					for (int i = 0; i < neighbors.size(); i++) {
+						if (spot2.getSpotID().equals(neighbors.get(i))) {
+							contained = true;
+						}
+					}
+					if (!contained) {
+						neighbors.add(spot2);
+						spot.numberOfNeighbours++;
+						spot.setNeighbors(neighbors);
+
+						spot2.numberOfNeighbours++;
+						spot2.getNeighbors().add(spot);
+
+						if (neighbors.size() >= 3) {
+							spot.setIntersection(true);
+						}
+						if(spot2.getNeighbors().size() >= 3){
+							spot2.setIntersection(true);
+						}
 						spotQuery.addNeighbour(spot,spot2,session);
+						spotQuery.updateSpot(spot,session);
+						spotQuery.updateSpot(spot2,session);
 					}
 				}
 			}

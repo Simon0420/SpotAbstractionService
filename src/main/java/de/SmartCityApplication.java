@@ -9,8 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * Created by simon on 29.07.2017.
  */
 @SpringBootApplication
-@EntityScan(basePackages = {"de.domain","de.domainAux"})
-@EnableJpaRepositories(basePackages = { "de.repositories" })
+@EntityScan(basePackages = {"de.domains"})
 public class SmartCityApplication {
 
     public static void main(String[] args)

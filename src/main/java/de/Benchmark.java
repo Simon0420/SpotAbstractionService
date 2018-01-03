@@ -43,8 +43,8 @@ public class Benchmark {
         long id = 0;
 
         for (int i = 0; i < 300; i++) {
-            latitude += 0.0001;
-            date += 2000;
+            latitude += 0.00001;
+            date += 1000;
             id++;
 
             if (i < 300 - 1) {
