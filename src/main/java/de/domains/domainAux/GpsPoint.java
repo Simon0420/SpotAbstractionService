@@ -11,6 +11,7 @@ import java.io.Serializable;
  * Created by simon on 26.07.2017.
  */
 @Entity
+@Table(name = "gps_point")
 public class GpsPoint implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
