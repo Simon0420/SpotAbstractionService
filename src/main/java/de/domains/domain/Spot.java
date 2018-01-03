@@ -35,7 +35,7 @@ public class Spot implements Serializable{
 
     public int numberOfNeighbours;
 
-    @OneToMany
+    @ManyToMany
     public List<Spot> neighbors;
 
     public int numberCenterCalcPoints; //!

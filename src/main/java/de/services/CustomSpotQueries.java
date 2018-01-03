@@ -45,14 +45,12 @@ public class CustomSpotQueries {
         Query q = session.createSQLQuery(querystring);
         q.executeUpdate();
 
-        /**
-        String query = "Select spotid FROM spot WHERE latitude = "+s.latitude+" AND longitude = "+s.longitude+" AND spotHeading = "+s.spotHeading+";";
-        q = session.createSQLQuery(querystring);
-        q.executeUpdate();
-        List list = q.list();
-        System.out.println(list.get(0));*/
-
-        return 0;
+        Query selectQuery;
+        String queryString = "Select spotid FROM spot WHERE latitude = "+s.latitude+" AND longitude = "+s.longitude+" AND spotHeading = "+s.spotHeading+";";
+        selectQuery = session.createSQLQuery(queryString);
+        List list = selectQuery.list();
+        BigInteger id = (BigInteger)list.get(0);
+        return id.intValue();
     }
 
     public void updateSpot(Spot s, Session session){
@@ -97,7 +95,7 @@ public class CustomSpotQueries {
     }
 
     public void addNeighbourRelation(Spot spot1, Spot spot2, Session session){
-        String querystring = "INSERT INTO spot_spot (spot_spotid, neighbours_spotid) VALUES ("+spot1.spotID+", "+spot2.spotID+"), ("+spot2.spotID+", "+spot1.spotID+")"+";";
+        String querystring = "INSERT INTO spot_spot (spot_spotid, neighbors_spotid) VALUES ("+spot1.spotID+", "+spot2.spotID+"), ("+spot2.spotID+", "+spot1.spotID+")"+";";
         //perform db operations
         Query q = session.createSQLQuery(querystring);
         q.executeUpdate();
