@@ -1,5 +1,6 @@
 package de.configuration;
 
+import de.services.PostDatabaseStreamService;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
