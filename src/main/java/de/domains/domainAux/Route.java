@@ -19,7 +19,10 @@ public class Route implements Serializable {
 
     @Transient
     public GpsPoint[] route;
-    
+
+    @Column(nullable = true)
+    public long uniqueid;
+
     @Column(nullable = true)
     public int realID;
 
@@ -55,5 +58,13 @@ public class Route implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public long getUniqueid() {
+        return uniqueid;
+    }
+
+    public void setUniqueid(long uniqueid) {
+        this.uniqueid = uniqueid;
     }
 }
