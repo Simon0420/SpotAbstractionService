@@ -1,4 +1,4 @@
-package de.DatabaseConfigurations;
+package de.databaseConfigurations;
 
 
 import de.domains.domain.Spot;

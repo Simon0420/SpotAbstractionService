@@ -1,4 +1,4 @@
-package de.DatabaseConfigurations;
+package de.databaseConfigurations;
 
 import de.domains.domainAux.Route;
 import org.springframework.beans.factory.annotation.Qualifier;

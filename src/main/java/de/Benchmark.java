@@ -43,7 +43,7 @@ public class Benchmark {
         long id = 0;
 
         for (int i = 0; i < 300; i++) {
-            latitude += 0.0001;
+            latitude += 0.00001;
             date += 1000;
             id++;
 

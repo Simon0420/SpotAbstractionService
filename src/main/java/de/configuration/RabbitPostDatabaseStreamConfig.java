@@ -18,9 +18,9 @@ public class RabbitPostDatabaseStreamConfig {
      */
     @Bean
     public ConnectionFactory connectionFactory1() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
-        connectionFactory.setUsername("guest");
-        connectionFactory.setPassword("guest");
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("134.155.49.88:15672");
+        connectionFactory.setUsername("ines");
+        connectionFactory.setPassword("ines");
         return connectionFactory;
     }
 
