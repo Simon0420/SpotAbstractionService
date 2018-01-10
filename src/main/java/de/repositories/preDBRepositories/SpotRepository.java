@@ -14,6 +14,9 @@ public interface SpotRepository extends CrudRepository<Spot, Long>{
     @Query("Select s from Spot s WHERE s.spotID = :spotID")
     public Spot getSpot(Long spotID);
 
+    @Query(value = "Select * from spot;", nativeQuery = true)
+    public List<Spot> getAllSpots();
+
     @Query(value = "Selet * from spot WHERE location && " +
             "ST_Transform(ST_MakeEnvelope(:maxlongitude, :maxlatitude, :minlongitude, :minlatitdue, 4326), 2223);", nativeQuery = true)
     public ArrayList<Spot> getSpots(double maxlongitude, double maxlatitude, double minlongitude, double minlatitdue);
