@@ -24,9 +24,9 @@ public class ExampleApplication {
         ex.processRandomRoute();
 
         //send route object
-        System.out.println("Process route object:");
-        Route route = ex.createRandomRouteObject();
-        ex.processRouteObject(route);
+        //System.out.println("Process route object:");
+        //Route route = ex.createRandomRouteObject();
+        //ex.processRouteObject(route);
 
         System.out.println("Get Spots in db:");
         ex.returnSpots();
@@ -90,6 +90,7 @@ public class ExampleApplication {
         acceleration = random.nextDouble();
         long id = 0;
         route.route = new GpsPoint[50];
+        route.id = random.nextLong();
 
         for (int i = 0; i < 50; i++) {
             latitude += 0.00001;
