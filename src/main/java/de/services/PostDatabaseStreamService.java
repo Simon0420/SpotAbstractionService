@@ -37,7 +37,6 @@ public class PostDatabaseStreamService {
      * @param message
      */
     public void postDatabaseStreamMessage(Long message){
-
         Route r = routes.getRoute(message);
         s.learningSpotStructure(r);
 

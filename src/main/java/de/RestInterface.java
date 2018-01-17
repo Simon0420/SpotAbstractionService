@@ -1,5 +1,8 @@
 package de;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import de.domains.domain.Spot;
 import de.repositories.preDBRepositories.SpotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +27,31 @@ public class RestInterface {
     @RequestMapping(value="/spotservice/getAllSpots", method = RequestMethod.GET)
     public List<Spot> getSpotsInDB(){
         return sr.getAllSpots();
+    }
+
+    @RequestMapping(value="/spotservice/getSpotJson", method = RequestMethod.GET)
+    public String getSpotInJSONinDB(@RequestParam(value="id", defaultValue="0")long id){
+        Spot spot = sr.getSpot(id);
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String input = "error";
+        try {
+            input = ow.writeValueAsString(spot);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return input;
+    }
+
+    @RequestMapping(value="/spotservice/getAllSpotsJson", method = RequestMethod.GET)
+    public String getSpotsInJSONinDB(){
+        List<Spot> spots = sr.getAllSpots();
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String input = "error";
+        try {
+            input = ow.writeValueAsString(spots);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return input;
     }
 }
