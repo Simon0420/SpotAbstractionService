@@ -1,15 +1,22 @@
 package de.services;
 
 import de.domains.domain.Spot;
+import de.repositories.preDBRepositories.SpotRepository;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.type.ListType;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigInteger;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomSpotQueries {
+
+    @Autowired
+    SpotRepository sr;
 
     public long addSpot(Spot s, Session session){
         String querystring = "INSERT INTO spot ("+
@@ -101,5 +108,143 @@ public class CustomSpotQueries {
         q.executeUpdate();
     }
 
+    public List<Spot> getClosestSpot(double latitude, double longitude, Session session){
+        Query selectQuery;
+        String query = "SELECT" +
+                " spotid " +
+                "FROM spot " +
+                "ORDER BY location <-> ST_SetSRID(ST_POINT("+latitude+", "+longitude+"), 4326) " +
+                "LIMIT 1;";
+        selectQuery = session.createSQLQuery(query);
+        List list = selectQuery.list();
+        if(list != null &&  list.size() > 0) {
+            BigInteger id = (BigInteger) list.get(0);
+            long idRequest = id.longValue();
+            List<Spot> ss = new ArrayList<>();
+            try {
+                Spot s = sr.getSpot(idRequest);
+                ss.add(s);
+            }catch (NullPointerException e){
+                return null;
+            }
+            return ss;
+        }
+        else{
+            return null;
+        }
+    }
 
+    public String getSpots(Session session){
+        String query = "Select spotid from spot;";
+        Query q = session.createSQLQuery(query);
+        List list = q.list();
+        ArrayList<String> spots = new ArrayList<String>();
+        for(int i = 0; i < list.size(); i++){
+            spots.add("{");
+        }
+
+        for(int i = 0; i < list.size(); i++){
+            String s = spots.get(i) +" id:"+list.get(i)+",";
+            spots.set(i,s);
+        }
+
+        query = "Select latitude from spot;";
+        q = session.createSQLQuery(query);
+        list = q.list();
+
+        for(int i = 0; i < list.size(); i++){
+            String s = spots.get(i) +" latitude:"+list.get(i)+",";
+            spots.set(i,s);
+        }
+
+        query = "Select longitude from spot;";
+        q = session.createSQLQuery(query);
+        list = q.list();
+
+        for(int i = 0; i < list.size(); i++){
+            String s = spots.get(i) +" longitude:"+list.get(i)+",";
+            spots.set(i,s);
+        }
+
+        query = "Select spotheading from spot;";
+        q = session.createSQLQuery(query);
+        list = q.list();
+
+        for(int i = 0; i < list.size(); i++){
+            String s = spots.get(i) +" spotheading:"+list.get(i)+",";
+            spots.set(i,s);
+        }
+
+        query = "Select numberofneighbours from spot;";
+        q = session.createSQLQuery(query);
+        list = q.list();
+
+        for(int i = 0; i < list.size(); i++){
+            String s = spots.get(i) +" numberofneighbours:"+list.get(i)+",";
+            spots.set(i,s);
+        }
+
+        query = "Select intersection from spot;";
+        q = session.createSQLQuery(query);
+        list = q.list();
+
+        for(int i = 0; i < list.size(); i++){
+            String s = spots.get(i) +" intersection:"+list.get(i);
+            spots.set(i,s);
+        }
+
+        for(int i = 0; i < list.size(); i++){
+            String s = spots.get(i) +" }";
+            spots.set(i,s);
+        }
+
+        String json = "[";
+        for(int i = 0; i < spots.size()-1; i++){
+            json += spots.get(i)+", ";
+        }
+        json += "]";
+
+        System.out.println(json);
+
+        return json;
+    }
+
+    public String getSpotsRelations(Session session){
+        String query = "Select spot_spotid from spot_spot;";
+        Query q = session.createSQLQuery(query);
+        List list = q.list();
+        ArrayList<String> spots = new ArrayList<String>();
+        for(int i = 0; i < list.size(); i++){
+            spots.add("{");
+        }
+
+        for(int i = 0; i < list.size(); i++){
+            String s = spots.get(i) +" id:"+list.get(i)+",";
+            spots.set(i,s);
+        }
+
+        query = "Select neighbors_spotid from spot_spot;";
+        q = session.createSQLQuery(query);
+        list = q.list();
+
+        for(int i = 0; i < list.size(); i++){
+            String s = spots.get(i) +" id_neighbor:"+list.get(i);
+            spots.set(i,s);
+        }
+
+        for(int i = 0; i < list.size(); i++){
+            String s = spots.get(i) +" }";
+            spots.set(i,s);
+        }
+
+        String json = "[";
+        for(int i = 0; i < spots.size()-1; i++){
+            json += spots.get(i)+", ";
+        }
+        json += "]";
+
+        System.out.println(json);
+
+        return json;
+    }
 }

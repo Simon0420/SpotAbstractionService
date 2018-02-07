@@ -11,10 +11,10 @@ import java.util.*;
 @Repository
 public interface SpotRepository extends CrudRepository<Spot, Long>{
 
-    @Query("Select s from Spot s WHERE s.spotID = :spotID")
+    @Query(value = "Select s from Spot s WHERE s.spotID = :spotID")
     public Spot getSpot(Long spotID);
 
-    @Query(value = "Select * from spot;", nativeQuery = true)
+    @Query(value = "Select s from Spot s")
     public List<Spot> getAllSpots();
 
     @Query(value = "Selet * from spot WHERE location && " +

@@ -6,6 +6,7 @@ import de.domains.domainAux.GpsPoint;
 import de.domains.domainAux.Route;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -18,21 +19,28 @@ public class ExampleApplication {
     String serverip = "134.155.49.88";
 
     public static void main(String[] args) {
-        //send random generated linear route json string
-        System.out.println("Process random generated linear route json string:");
         ExampleApplication ex = new ExampleApplication();
+
+        //send random generated linear route json string
+        System.out.println("Process random generated linear route json string.");
         ex.processRandomRoute();
 
         //send route object
-        //System.out.println("Process route object:");
-        //Route route = ex.createRandomRouteObject();
-        //ex.processRouteObject(route);
+        System.out.println("Process route object.");
+        Route route = ex.createRandomRouteObject();
+        ex.processRouteObject(route);
 
+        //request spots stored at server
         System.out.println("Get Spots in db:");
-        ex.returnSpots();
+        ex.requestSpotsAlternative();
 
-        System.out.println("Get Spot with id=0 in db:");
-        ex.returnSpot(0);
+        //request relations between spots
+        System.out.println("Get relation between spots in db:");
+        ex.requestSpotsRelationAlternative();
+
+        //request spots stored at server - DEPRECATED
+        //System.out.println("Get Spot with id=0 in db:");
+        //ex.returnSpot(0);
     }
 
     public void processRouteObject(Route route){
@@ -63,8 +71,11 @@ public class ExampleApplication {
             while ((output = br.readLine()) != null) {
                 System.out.println(output);
             }
-            conn.disconnect();
 
+            conn.disconnect();
+            System.out.println("done");
+        } catch (FileNotFoundException fe){
+            return;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -175,14 +186,62 @@ public class ExampleApplication {
             while ((output = br.readLine()) != null) {
                 System.out.println(output);
             }
+
+            conn.disconnect();
+            System.out.println("done");
+        } catch (FileNotFoundException fe){
+            return;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void requestSpotsAlternative(){
+        try {
+            URL url = new URL("http://localhost:5435/spotservice/getAllSpotsJsonAlternative");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setRequestMethod("GET");
+
+            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+            String output;
+            while ((output = br.readLine()) != null) {
+                System.out.println(output);
+            }
             conn.disconnect();
 
         } catch (Exception e) {
-            //e.printStackTrace();
+            System.out.println(e.getMessage());
             return;
         }
     }
 
+    public void requestSpotsRelationAlternative(){
+        try {
+            URL url = new URL("http://localhost:5435/spotservice/getAllSpotsRelationsJsonAlternative");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setRequestMethod("GET");
+
+            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+            String output;
+            while ((output = br.readLine()) != null) {
+                System.out.println(output);
+            }
+            conn.disconnect();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+    }
+
+    /**
+     * Request spot with specific id with relations at server, returns a spot object.
+     * Not working, failure in deserialization of spots at server.
+     * @param id
+     */
+    @Deprecated
     public void returnSpot(int id){
         try {
             URL url = new URL("http://localhost:5435/spotservice/getSpotJson?id="+id);
@@ -205,7 +264,11 @@ public class ExampleApplication {
         }
     }
 
-
+    /**
+     * Request all spots including relations at server, returns an array of spot objects.
+     * Currently not working, failure in deserialization of spots at server.
+     */
+    @Deprecated
     public void returnSpots(){
         try {
             URL url = new URL("http://localhost:5435/spotservice/getAllSpotsJson");

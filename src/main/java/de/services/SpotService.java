@@ -49,12 +49,12 @@ public class SpotService {
 	 */
 	public Route learningSpotStructure(Route route) {
 		if(this.session == null || !this.session.isOpen()) {
-			if(session == null){
-				Configuration config = new Configuration();
-				config.configure();
-				this.sessionFactory = config.buildSessionFactory();
-				this.session = sessionFactory.openSession();
-			}
+				if(session == null){
+					Configuration config = new Configuration();
+					config.configure();
+					this.sessionFactory = config.buildSessionFactory();
+					this.session = sessionFactory.openSession();
+				}
 			if(!session.isOpen()){
 				this.session = sessionFactory.openSession();
 			}
@@ -409,7 +409,7 @@ public class SpotService {
 	private InfoBundle searchClosestSpot(GpsPoint point) {
 
 		System.out.println("searchClosestSpot");
-		List<Spot> spots = spotRepository.getClosestSpot(point.getLatitude(),point.getLongitude());
+		List<Spot> spots = spotQuery.getClosestSpot(point.getLatitude(),point.getLongitude(),session);
 
 		double minDistance;
 		Long minDistance_spotID;

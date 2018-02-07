@@ -7,6 +7,7 @@ import de.domains.domainAux.GpsPoint;
 import de.geodesy.GeoDesy;
 import de.services.Line;
 import de.services.GPSDataProcessor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -55,7 +56,6 @@ public class Spot implements Serializable{
     public boolean weightProcessed;
 
     public Spot(){}
-
 
     /**
      * Constructs a new Spot
