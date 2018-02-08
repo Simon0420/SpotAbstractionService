@@ -26,6 +26,11 @@ public class RestInterface {
     Session session;
     SessionFactory sessionFactory;
 
+    @RequestMapping(value="/spotservice/hello", method = RequestMethod.GET)
+    public String helloWorld(){
+        return "hello world.";
+    }
+
     @RequestMapping(value="/spotservice/getAllSpotsJsonAlternative", method = RequestMethod.GET)
     public String getSpotsAlternative(){
         if(this.session == null || !this.session.isOpen()) {
